@@ -61,6 +61,18 @@ def init_db():
     ALTER TABLE emergency_contacts
     ALTER COLUMN name DROP NOT NULL
     """)
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS emergency_alerts (
+        id SERIAL PRIMARY KEY,
+        accident_id INTEGER REFERENCES accidents(id),
+        user_id INTEGER REFERENCES users(id),
+        contact_id INTEGER REFERENCES emergency_contacts(id),
+        message TEXT,
+        alert_status VARCHAR(50),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
 
     # =========================
     # ACCIDENTS TABLE
