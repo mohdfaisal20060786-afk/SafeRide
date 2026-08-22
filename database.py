@@ -1,13 +1,15 @@
 import os
-import mysql.connector
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME", "accident_system")
-    )
+    database_url = os.getenv("DATABASE_URL")
 
-    return connection
+    if not database_url:
+        raise RuntimeError("DATABASE_URL is not set")
+
+    return psycopg2.connect(
+        database_url,
+        cursor_factory=RealDictCursor
+    )
