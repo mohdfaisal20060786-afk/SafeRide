@@ -87,6 +87,11 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    
+    cursor.execute("""
+    ALTER TABLE accidents
+    ADD COLUMN IF NOT EXISTS accident_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    """)
 
     connection.commit()
 
