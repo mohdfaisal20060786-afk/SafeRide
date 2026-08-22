@@ -31,6 +31,26 @@ def init_db():
             password TEXT NOT NULL
         )
     """)
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS accidents (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        latitude DOUBLE PRECISION,
+        longitude DOUBLE PRECISION,
+        status VARCHAR(50),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS emergency_contacts (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        name VARCHAR(100) NOT NULL,
+        phone VARCHAR(20) NOT NULL
+        )
+    """)
 
     # =========================
     # ACCIDENTS TABLE
