@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+}
+
+
+/* =========================
+   LOGIN CONTAINER
+========================= */
+
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px 20px;
+}
+
+
+/* =========================
+   LOGIN BOX
+========================= */
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+    text-align: center;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+h1 {
+    text-align: center;
+
+    margin-bottom: 10px;
+
+    color: #222;
+}
+
+.subtitle {
+    text-align: center;
+
+    color: #666;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   LABELS
+========================= */
+
+label {
+    display: block;
+
+    margin-top: 15px;
+    margin-bottom: 7px;
+
+    font-weight: bold;
+
+    color: #333;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+input {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background: white;
+}
+
+input:focus {
+    border-color: #e63946;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+button {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #e63946;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background: #c92f3b;
+}
+
+
+/* =========================
+   REGISTER LINK
+========================= */
+
+.register-text {
+    text-align: center;
+
+    margin-top: 20px;
+
+    color: #666;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+.register-text a {
+    color: #e63946;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .login-container {
+        padding: 20px 15px;
+    }
+
+    .login-box {
+        padding: 28px 20px;
+
+        border-radius: 12px;
+    }
+
+    .logo {
+        font-size: 22px;
+
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    input {
+        padding: 12px;
+
+        font-size: 14px;
+    }
+
+    button {
+        padding: 13px;
+
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - SafeRide</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </nav>
+
+
+    <!-- Dashboard -->
+
+    <main class="dashboard">
+
+        <div class="welcome">
+
+            <p class="small-title">
+                INTELLIGENT ACCIDENT DETECTION SYSTEM
+            </p>
+
+            <h1>
+                Welcome to your Dashboard
+            </h1>
+
+            <p>
+                Manage your safety information and emergency alerts
+                from one place.
+            </p>
+
+        </div>
+
+
+        <!-- Cards -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👤
+                </div>
+
+                <h2>My Profile</h2>
+
+                <p>
+                    View and manage your personal information.
+                </p>
+
+                <button>
+                    View Profile
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📞
+                </div>
+
+                <h2>Emergency Contacts</h2>
+
+                <p>
+                    Add and manage people who should receive
+                    emergency alerts.
+                </p>
+
+                <a href="/contacts" class="card-button">
+                    Manage Contacts
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🚗
+                </div>
+
+                <h2>Vehicle Details</h2>
+
+                <p>
+                    Add your vehicle information for emergency
+                    identification.
+                </p>
+
+                <button>
+                    Add Vehicle
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Accident Section -->
+
+        <section class="accident-section">
+
+            <div class="warning-icon">
+                🚨
+            </div>
+
+            <h2>
+                Emergency Accident Detection
+            </h2>
+
+            <p>
+                If an accident occurs, use the button below
+                to start the emergency alert process.
+            </p>
+
+            <a href="/accident" class="accident-button">
+                🚨 ACCIDENT DETECTED
+            </a>
+
+        </section>
+
+
+        <!-- Bottom Cards -->
+
+        <div class="bottom-cards">
+
+            <div class="bottom-card">
+
+                <span>📍</span>
+
+                <div>
+                    <h3>Current Location</h3>
+                    <p>GPS location will appear here.</p>
+                </div>
+
+            </div>
+
+
+            <a href="/history" class="bottom-card">
+
+                <span>📋</span>
+
+                <div>
+                    <h3>Accident History</h3>
+                    <p>View your previous accident reports.</p>
+                </div>
+
+            </a>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Alert - SafeRide</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/alert.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            Dashboard
+        </a>
+
+    </nav>
+
+
+    <main class="alert-container">
+
+        <div class="alert-icon">
+            🚨
+        </div>
+
+        <h1>Emergency Alert</h1>
+
+        <p class="subtitle">
+            Accident detected and emergency information prepared.
+        </p>
+
+
+        <div class="alert-box">
+
+            <h2>Alert Message</h2>
+
+            <div class="message">
+                {{ message }}
+            </div>
+
+            <h3>Emergency Contacts</h3>
+
+            {% if contacts %}
+
+                {% for contact in contacts %}
+
+                    <div class="contact">
+
+                        <span>📞</span>
+
+                        <div>
+
+                            <strong>
+                                {{ contact.contact_name }}
+                            </strong>
+
+                            <p>
+                                {{ contact.relation_name }}
+                                ·
+                                {{ contact.phone }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No emergency contacts found.
+                </p>
+
+            {% endif %}
+
+
+            <div class="status">
+
+                <strong>
+                    Alert Status:
+                </strong>
+
+                {{ status }}
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="/dashboard"
+            class="dashboard-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accident Location - SafeRide</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/location.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+    </nav>
+
+
+    <main class="location-container">
+
+        <div class="location-icon">
+            📍
+        </div>
+
+        <h1>Getting Your Location</h1>
+
+        <p id="status">
+            Getting your current location...
+        </p>
+
+        <div class="loader" id="loader">
+            <div></div>
+        </div>
+
+        <div id="location-result"></div>
+
+        <button
+            id="retry-button"
+            onclick="getLocation()"
+            style="display:none;">
+            🔄 Try Again
+        </button>
+
+    </main>
+
+
+    <script>
+
+        const status =
+            document.getElementById("status");
+
+        const result =
+            document.getElementById("location-result");
+
+        const loader =
+            document.getElementById("loader");
+
+        const retryButton =
+            document.getElementById("retry-button");
+
+
+        function getLocation() {
+
+            status.textContent =
+                "Getting your current location...";
+
+            result.innerHTML = "";
+
+            loader.style.display = "block";
+
+            retryButton.style.display = "none";
+
+
+            if (!navigator.geolocation) {
+
+                loader.style.display = "none";
+
+                status.textContent =
+                    "GPS is not supported on this device.";
+
+                retryButton.style.display = "inline-block";
+
+                return;
+            }
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                function(position) {
+
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+
+                    loader.style.display = "none";
+
+                    status.textContent =
+                        "Location detected successfully!";
+
+
+                    result.innerHTML = `
+
+                        <div class="location-box">
+
+                            <p>
+                                <strong>Latitude:</strong>
+                                ${latitude}
+                            </p>
+
+                            <p>
+                                <strong>Longitude:</strong>
+                                ${longitude}
+                            </p>
+
+                            <a
+                                href="https://www.google.com/maps?q=${latitude},${longitude}"
+                                target="_blank"
+                                class="map-button">
+
+                                📍 Open Location in Google Maps
+
+                            </a>
+
+                            <p id="save-status">
+                                Saving accident details...
+                            </p>
+
+                        </div>
+
+                    `;
+
+
+                    fetch("/save-accident", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            latitude: latitude,
+
+                            longitude: longitude
+
+                        })
+
+                    })
+
+                    .then(response => {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Server error: " +
+                                response.status
+                            );
+
+                        }
+
+                        return response.json();
+
+                    })
+
+                    .then(data => {
+
+                        const saveStatus =
+                            document.getElementById(
+                                "save-status"
+                            );
+
+
+                        if (data.success === true) {
+
+                            saveStatus.textContent =
+                                "✅ " + data.message;
+
+
+                            setTimeout(function() {
+
+                                window.location.href =
+                                    "/send-alert";
+
+                            }, 1500);
+
+                        } else {
+
+                            saveStatus.textContent =
+                                "❌ " + data.message;
+
+                        }
+
+                    })
+
+                    .catch(error => {
+
+                        console.error(error);
+
+                        const saveStatus =
+                            document.getElementById(
+                                "save-status"
+                            );
+
+                        if (saveStatus) {
+
+                            saveStatus.textContent =
+                                "❌ Unable to save accident details.";
+
+                        }
+
+                    });
+
+                },
+
+
+                function(error) {
+
+                    loader.style.display = "none";
+
+                    retryButton.style.display =
+                        "inline-block";
+
+
+                    if (error.code === 1) {
+
+                        status.textContent =
+                            "Location permission was denied.";
+
+                    }
+
+                    else if (error.code === 2) {
+
+                        status.textContent =
+                            "Location is currently unavailable.";
+
+                    }
+
+                    else if (error.code === 3) {
+
+                        status.textContent =
+                            "Location request timed out.";
+
+                    }
+
+                    else {
+
+                        status.textContent =
+                            "Unable to get your location.";
+
+                    }
+
+                },
+
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 0
+                }
+
+            );
+
+        }
+
+
+        // Start location detection
+        getLocation();
+
+    </script>
+
+</body>
+
+</html>

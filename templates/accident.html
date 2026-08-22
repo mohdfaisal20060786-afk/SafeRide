@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Accident Detection - SafeRide</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/accident.css') }}">
+
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <main class="accident-container">
+
+        <div class="warning">
+            🚨
+        </div>
+
+
+        <h1 id="title">
+            Accident Detection
+        </h1>
+
+
+        <p class="message" id="message">
+
+            SafeRide is monitoring your phone
+            for a possible accident.
+
+        </p>
+
+
+        <div class="countdown"
+             id="countdown">
+
+            Monitoring
+
+        </div>
+
+
+        <p class="timer-text"
+           id="timerText">
+
+            Automatic accident detection is active.
+
+        </p>
+
+
+        <button
+            id="manualButton"
+            class="cancel-btn">
+
+            🚨 TEST ACCIDENT DETECTION
+
+        </button>
+
+
+        <button
+            id="cancelButton"
+            class="cancel-btn"
+            style="display:none;">
+
+            CANCEL ALERT
+
+        </button>
+
+
+        <div id="status"
+             class="status">
+
+            🟢 Monitoring for sudden impact...
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        let timeLeft = 10;
+
+        let timer = null;
+
+        let accidentStarted = false;
+
+
+        const countdown =
+            document.getElementById("countdown");
+
+        const manualButton =
+            document.getElementById("manualButton");
+
+        const cancelButton =
+            document.getElementById("cancelButton");
+
+        const status =
+            document.getElementById("status");
+
+        const title =
+            document.getElementById("title");
+
+        const message =
+            document.getElementById("message");
+
+        const timerText =
+            document.getElementById("timerText");
+
+
+        /*
+         * Start native Android accelerometer
+         */
+        if (
+            window.Android &&
+            Android.startAccidentDetection
+        ) {
+
+            Android.startAccidentDetection();
+
+        }
+
+
+        /*
+         * This function is called by MainActivity.kt
+         * when a strong impact is detected.
+         */
+        window.onAccidentDetected = function () {
+
+            if (accidentStarted) {
+                return;
+            }
+
+            accidentStarted = true;
+
+            startEmergencyCountdown();
+
+        };
+
+
+        /*
+         * Manual testing button
+         */
+        manualButton.addEventListener(
+            "click",
+            function () {
+
+                startEmergencyCountdown();
+
+            }
+        );
+
+
+        function startEmergencyCountdown() {
+
+            if (timer !== null) {
+                return;
+            }
+
+
+            title.textContent =
+                "⚠️ Accident Suspected";
+
+
+            message.textContent =
+                "A possible accident has been detected. Emergency alert will start unless cancelled.";
+
+
+            status.textContent =
+                "Accident detected. Please cancel if this is a false alarm.";
+
+
+            manualButton.style.display =
+                "none";
+
+
+            cancelButton.style.display =
+                "block";
+
+
+            timeLeft = 10;
+
+            countdown.textContent =
+                timeLeft;
+
+
+            timerText.textContent =
+                "seconds remaining";
+
+
+            timer = setInterval(
+                function () {
+
+                    timeLeft--;
+
+                    countdown.textContent =
+                        timeLeft;
+
+
+                    if (timeLeft <= 0) {
+
+                        clearInterval(timer);
+
+                        timer = null;
+
+                        cancelButton.disabled =
+                            true;
+
+
+                        status.textContent =
+                            "Accident confirmed. Getting location...";
+
+
+                        if (
+                            window.Android &&
+                            Android.stopAccidentDetection
+                        ) {
+
+                            Android.stopAccidentDetection();
+
+                        }
+
+
+                        window.location.href =
+                            "/get-location";
+                    }
+
+                },
+                1000
+            );
+        }
+
+
+        /*
+         * Cancel emergency alert
+         */
+        cancelButton.addEventListener(
+            "click",
+            function () {
+
+                if (timer !== null) {
+
+                    clearInterval(timer);
+
+                    timer = null;
+                }
+
+
+                if (
+                    window.Android &&
+                    Android.stopAccidentDetection
+                ) {
+
+                    Android.stopAccidentDetection();
+
+                }
+
+
+                countdown.textContent =
+                    "✓";
+
+
+                timerText.textContent =
+                    "No emergency alert was sent.";
+
+
+                status.textContent =
+                    "✅ Alert cancelled successfully.";
+
+
+                cancelButton.disabled =
+                    true;
+
+            }
+        );
+
+
+    </script>
+
+</body>
+
+</html>

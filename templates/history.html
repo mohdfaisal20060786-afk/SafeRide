@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accident History - SafeRide</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/history.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <main class="history-container">
+
+        <div class="heading">
+
+            <p>SAFETY RECORDS</p>
+
+            <h1>Accident History</h1>
+
+            <span>
+                View your previous accident detection records.
+            </span>
+
+        </div>
+
+
+        {% if accidents %}
+
+            {% for accident in accidents %}
+
+                <div class="history-card">
+
+                    <div class="history-icon">
+                        🚨
+                    </div>
+
+                    <div class="history-info">
+
+                        <h2>
+                            Accident Detected
+                        </h2>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ accident.status }}
+                        </p>
+
+                        <p>
+                            <strong>Latitude:</strong>
+                            {{ accident.latitude }}
+                        </p>
+
+                        <p>
+                            <strong>Longitude:</strong>
+                            {{ accident.longitude }}
+                        </p>
+
+                        <p>
+                            <strong>Date & Time:</strong>
+                            {{ accident.accident_time }}
+                        </p>
+
+                        <a
+                            href="https://www.google.com/maps?q={{ accident.latitude }},{{ accident.longitude }}"
+                            target="_blank"
+                            class="map-button"
+                        >
+                            📍 View Location
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-history">
+
+                <div>
+                    📋
+                </div>
+
+                <h2>No Accident History</h2>
+
+                <p>
+                    No accident records have been found.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

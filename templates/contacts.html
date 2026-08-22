@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Contacts - SafeRide</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/contacts.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <main class="contacts-container">
+
+        <div class="heading">
+
+            <p>SAFETY SETTINGS</p>
+
+            <h1>Emergency Contacts</h1>
+
+            <span>
+                Add people who should be notified during an emergency.
+            </span>
+
+        </div>
+
+
+        <div class="contact-box">
+
+            <h2>Add Emergency Contact</h2>
+
+            <form method="POST" action="/contacts">
+
+                <label for="contact_name">
+                    Contact Name
+                </label>
+
+                <input
+                    type="text"
+                    id="contact_name"
+                    name="contact_name"
+                    placeholder="Enter contact name"
+                    required
+                >
+
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    required
+                >
+
+
+                <label for="relation_name">
+                    Relation
+                </label>
+
+                <select
+                    id="relation_name"
+                    name="relation_name"
+                    required
+                >
+
+                    <option value="">
+                        Select Relation
+                    </option>
+
+                    <option value="Father">
+                        Father
+                    </option>
+
+                    <option value="Mother">
+                        Mother
+                    </option>
+
+                    <option value="Brother">
+                        Brother
+                    </option>
+
+                    <option value="Sister">
+                        Sister
+                    </option>
+
+                    <option value="Friend">
+                        Friend
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <button type="submit">
+                    + Add Contact
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="contact-list">
+
+            <h2>Saved Contacts</h2>
+
+            {% if contacts %}
+
+                {% for contact in contacts %}
+
+                    <div class="contact-card">
+
+                        <div class="contact-icon">
+                            📞
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ contact.contact_name }}
+                            </h3>
+
+                            <p>
+                                {{ contact.relation_name }}
+                                ·
+                                {{ contact.phone }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="no-contact">
+                    No emergency contacts added yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
