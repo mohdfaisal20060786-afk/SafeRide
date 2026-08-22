@@ -226,6 +226,7 @@ def save_accident():
         connection.commit()
 
     except Exception as error:
+        print("SAVE ACCIDENT DATABASE ERROR:", error)
 
         connection.rollback()
 
