@@ -1,9 +1,10 @@
 from psycopg2.extras import RealDictCursor
 from flask import Flask, render_template, request, redirect, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import get_db_connection
+from database import get_db_connection, init_db
 
 app = Flask(__name__)
+init_db()
 
 # Session secret key
 app.secret_key = "saferide_secret_key_2026"
@@ -87,6 +88,7 @@ def login():
         password = request.form["password"]
 
         connection = get_db_connection()
+        
         cursor = connection.cursor()
 
         query = """
