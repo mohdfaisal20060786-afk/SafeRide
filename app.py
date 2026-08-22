@@ -1,3 +1,4 @@
+from psycopg2.extras import RealDictCursor
 from flask import Flask, render_template, request, redirect, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection
@@ -86,7 +87,7 @@ def login():
         password = request.form["password"]
 
         connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
+        cursor = connection.cursor()
 
         query = """
         SELECT *
@@ -256,7 +257,7 @@ def contacts():
     user_id = session["user_id"]
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     # Add contact
     if request.method == "POST":
@@ -331,7 +332,7 @@ def history():
     user_id = session["user_id"]
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     query = """
     SELECT *
@@ -369,7 +370,7 @@ def send_alert():
     user_id = session["user_id"]
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     # Latest accident
     accident_query = """
