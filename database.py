@@ -13,11 +13,15 @@ def get_db_connection():
         database_url,
         cursor_factory=RealDictCursor
     )
-    
+
+
 def init_db():
     connection = get_db_connection()
     cursor = connection.cursor()
 
+    # =========================
+    # USERS TABLE
+    # =========================
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
@@ -25,6 +29,20 @@ def init_db():
             email VARCHAR(150) UNIQUE NOT NULL,
             phone VARCHAR(20),
             password TEXT NOT NULL
+        )
+    """)
+
+    # =========================
+    # ACCIDENTS TABLE
+    # =========================
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS accidents (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            latitude DOUBLE PRECISION NOT NULL,
+            longitude DOUBLE PRECISION NOT NULL,
+            status VARCHAR(50) DEFAULT 'Detected',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
 
