@@ -51,6 +51,12 @@ def init_db():
         phone VARCHAR(20) NOT NULL
         )
     """)
+    
+    cursor.execute("""
+    ALTER TABLE emergency_contacts
+    ADD COLUMN IF NOT EXISTS contact_name VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS relation_name VARCHAR(100)
+    """)
 
     # =========================
     # ACCIDENTS TABLE
