@@ -345,3 +345,28 @@ footer {
     background: #d92d39;
     color: white;
 }
+
+.profile-button,
+.contacts-button,
+.vehicle-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 14px 20px;
+    margin-top: 20px;
+
+    background: #ef3340;
+    color: white;
+
+    text-align: center;
+    text-decoration: none;
+
+    border: none;
+    border-radius: 9px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
