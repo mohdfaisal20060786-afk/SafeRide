@@ -1,22 +1,158 @@
+/* ================================
+   SAFERIDE DASHBOARD
+   ================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #111;
+}
+
+
+/* ================================
+   NAVBAR
+   ================================ */
+
+.navbar {
+    width: 100%;
+    background: #111827;
+    color: white;
+    padding: 18px 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logout {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.logout:hover {
+    color: #ff3340;
+}
+
+
+/* ================================
+   DASHBOARD
+   ================================ */
+
+.dashboard {
+    max-width: 1200px;
+    margin: auto;
+    padding: 45px 25px;
+}
+
+
+/* ================================
+   WELCOME SECTION
+   ================================ */
+
+.welcome {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcome h1 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    font-size: 18px;
+    color: #555;
+}
+
+
+/* ================================
+   CARDS
+   ================================ */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.card {
+    background: white;
+
+    padding: 35px 38px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+
+    min-height: 360px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.card-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+
+    flex-grow: 1;
+}
+
+
+/* ================================
+   ALL CARD BUTTONS
+   ================================ */
+
 .profile-button,
 .contacts-button,
 .vehicle-button {
     display: block;
+
     width: 100%;
-    box-sizing: border-box;
-    text-align: center;
+
     padding: 14px 20px;
+
     margin-top: 20px;
 
     background: #ef3340;
     color: white;
+
     text-decoration: none;
+    text-align: center;
+
     border: none;
     border-radius: 9px;
 
     font-size: 18px;
     font-weight: bold;
+
     cursor: pointer;
+
+    transition: 0.2s ease;
 }
 
 .profile-button:hover,
@@ -25,19 +161,94 @@
     background: #d92d39;
     color: white;
 }
-.card button {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 14px 20px;
-    margin-top: 20px;
 
-    background: #ef3340;
-    color: white;
-    border: none;
-    border-radius: 9px;
 
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+/* ================================
+   BOTTOM CARDS
+   ================================ */
+
+.bottom-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 30px;
+
+    margin-top: 30px;
+}
+
+.bottom-card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+
+    text-decoration: none;
+    color: #111;
+
+    transition: 0.2s ease;
+}
+
+.bottom-card:hover {
+    transform: translateY(-3px);
+}
+
+.bottom-card span {
+    font-size: 40px;
+}
+
+.bottom-card h3 {
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+.bottom-card p {
+    color: #555;
+    margin-top: 8px;
+}
+
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 900px) {
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        min-height: auto;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .dashboard {
+        padding: 30px 15px;
+    }
+
+    .welcome h1 {
+        font-size: 28px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .card h2 {
+        font-size: 25px;
+    }
 }
