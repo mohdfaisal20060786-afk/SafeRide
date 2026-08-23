@@ -25,7 +25,46 @@ def current_location():
 
     return render_template("current_location.html")
 
+# =========================
+# PROFILE
+# =========================
 
+@app.route("/profile")
+def profile():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT id, name, email, phone
+            FROM users
+            WHERE id = %s
+        """, (user_id,))
+
+        user = cursor.fetchone()
+
+        if not user:
+            return "User not found", 404
+
+        return render_template(
+            "profile.html",
+            user=user
+        )
+
+    except Exception as error:
+
+        return f"Profile Error: {error}", 500
+
+    finally:
+
+        cursor.close()
+        connection.close()
 # =========================
 # REGISTER
 # =========================

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - SafeRide</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .detail {
+            padding: 15px;
+            margin: 12px 0;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .detail strong {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            padding: 13px;
+            background: #ef3340;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="profile-icon">
+            👤
+        </div>
+
+        <h1>My Profile</h1>
+
+
+        <div class="detail">
+
+            <strong>Name:</strong>
+
+            {{ user["name"] }}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Email:</strong>
+
+            {{ user["email"] }}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Phone:</strong>
+
+            {{ user["phone"] or "Not provided" }}
+
+        </div>
+
+
+        <a href="/dashboard"
+           class="back-button">
+
+            ← Back to Dashboard
+
+        </a>
+
+    </div>
+
+</body>
+
+</html>
