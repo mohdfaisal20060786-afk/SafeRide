@@ -200,3 +200,7 @@ footer {
 
     margin-top: 30px;
 }
+/* Contact page refresh */
+body {
+    min-height: 100vh;
+}
