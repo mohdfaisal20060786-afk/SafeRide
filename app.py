@@ -18,6 +18,13 @@ app.secret_key = "saferide_secret_key_2026"
 def home():
     return render_template("index.html")
 
+@app.route("/current-location")
+def current_location():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    return render_template("current_location.html")
+
 
 # =========================
 # REGISTER

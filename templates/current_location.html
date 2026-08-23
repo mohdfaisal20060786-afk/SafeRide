@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Current Location - SafeRide</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 80px auto;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .icon {
+            font-size: 60px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        #status {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .location-box {
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .location-box p {
+            font-size: 18px;
+        }
+
+        .map-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 14px 22px;
+            background: #ef3340;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .map-button:hover {
+            background: #d92330;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        .loader {
+            margin: 20px auto;
+            border: 5px solid #eee;
+            border-top: 5px solid #ef3340;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">🚨 SafeRide</div>
+    </nav>
+
+    <div class="container">
+
+        <div class="icon">📍</div>
+
+        <h1>Current Location</h1>
+
+        <p id="status">
+            Getting your current location...
+        </p>
+
+        <div class="loader" id="loader"></div>
+
+        <div id="location-result"></div>
+
+        <button id="retry-button"
+                onclick="getLocation()"
+                style="display:none;">
+            🔄 Try Again
+        </button>
+
+    </div>
+
+
+    <script>
+
+        const status = document.getElementById("status");
+        const result = document.getElementById("location-result");
+        const loader = document.getElementById("loader");
+        const retryButton = document.getElementById("retry-button");
+
+
+        function getLocation() {
+
+            status.textContent =
+                "Getting your current location...";
+
+            result.innerHTML = "";
+
+            loader.style.display = "block";
+
+            retryButton.style.display = "none";
+
+
+            if (!navigator.geolocation) {
+
+                loader.style.display = "none";
+
+                status.textContent =
+                    "GPS is not supported on this device.";
+
+                retryButton.style.display =
+                    "inline-block";
+
+                return;
+            }
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                function(position) {
+
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+
+                    loader.style.display = "none";
+
+                    status.textContent =
+                        "Location detected successfully!";
+
+
+                    result.innerHTML = `
+
+                        <div class="location-box">
+
+                            <p>
+                                <strong>Latitude:</strong>
+                                ${latitude}
+                            </p>
+
+                            <p>
+                                <strong>Longitude:</strong>
+                                ${longitude}
+                            </p>
+
+                            <a
+                                href="https://www.google.com/maps?q=${latitude},${longitude}"
+                                target="_blank"
+                                class="map-button">
+
+                                📍 Open Location in Google Maps
+
+                            </a>
+
+                        </div>
+
+                    `;
+
+                },
+
+
+                function(error) {
+
+                    loader.style.display = "none";
+
+                    retryButton.style.display =
+                        "inline-block";
+
+
+                    if (error.code === 1) {
+
+                        status.textContent =
+                            "Location permission was denied.";
+
+                    }
+
+                    else if (error.code === 2) {
+
+                        status.textContent =
+                            "Location is currently unavailable.";
+
+                    }
+
+                    else if (error.code === 3) {
+
+                        status.textContent =
+                            "Location request timed out.";
+
+                    }
+
+                    else {
+
+                        status.textContent =
+                            "Unable to get your location.";
+
+                    }
+
+                },
+
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 0
+                }
+
+            );
+        }
+
+
+        getLocation();
+
+    </script>
+
+</body>
+
+</html>
