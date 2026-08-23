@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicle.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,7 +22,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -67,66 +68,54 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>🚗 Vehicle Details</h1>
+        <h1>🚗 Vehicle Details</h1>
 
-    <form method="POST">
+        <form method="POST">
 
-        <label>Vehicle Number</label>
-        <input
-            type="text"
-            name="vehicle_number"
-            placeholder="e.g. UP81AB1234"
-            required
-        >
+            <label>Vehicle Number</label>
+            <input type="text" name="vehicle_number" placeholder="e.g. UP81AB1234" required>
 
-        <label>Vehicle Model</label>
-        <input
-            type="text"
-            name="vehicle_model"
-            placeholder="e.g. Honda City"
-        >
+            <label>Vehicle Model</label>
+            <input type="text" name="vehicle_model" placeholder="e.g. Honda City">
 
-        <label>Vehicle Color</label>
-        <input
-            type="text"
-            name="vehicle_color"
-            placeholder="e.g. Black"
-        >
+            <label>Vehicle Color</label>
+            <input type="text" name="vehicle_color" placeholder="e.g. Black">
 
-        <button type="submit">
-            Save Vehicle
-        </button>
+            <button type="submit">
+                Save Vehicle
+            </button>
 
-    </form>
+        </form>
 
-    {% if vehicle %}
+        {% if vehicle %}
 
-    <div class="vehicle-box">
+        <div class="vehicle-box">
 
-        <h2>Saved Vehicle</h2>
+            <h2>Saved Vehicle</h2>
 
-        <p>
-            <strong>Number:</strong>
-            {{ vehicle.vehicle_number }}
-        </p>
+            <p>
+                <strong>Number:</strong>
+                {{ vehicle.vehicle_number }}
+            </p>
 
-        <p>
-            <strong>Model:</strong>
-            {{ vehicle.vehicle_model }}
-        </p>
+            <p>
+                <strong>Model:</strong>
+                {{ vehicle.vehicle_model }}
+            </p>
 
-        <p>
-            <strong>Color:</strong>
-            {{ vehicle.vehicle_color }}
-        </p>
+            <p>
+                <strong>Color:</strong>
+                {{ vehicle.vehicle_color }}
+            </p>
+
+        </div>
+
+        {% endif %}
 
     </div>
 
-    {% endif %}
-
-</div>
-
 </body>
+
 </html>
