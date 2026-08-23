@@ -35,7 +35,7 @@ body {
 }
 
 form {
-    background: #ffffff;
+    background: white;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
@@ -45,8 +45,7 @@ form {
 form label {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px;
-    margin-top: 18px;
+    margin: 18px 0 8px;
 }
 
 form input {
@@ -55,11 +54,6 @@ form input {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
-}
-
-form input:focus {
-    outline: none;
-    border-color: #ef3340;
 }
 
 form button {
@@ -79,7 +73,7 @@ form button:hover {
 }
 
 .vehicle-box {
-    background: #ffffff;
+    background: white;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
@@ -87,31 +81,9 @@ form button:hover {
 
 .vehicle-box h2 {
     margin-bottom: 20px;
-    color: #222;
 }
 
 .vehicle-box p {
     margin: 12px 0;
     font-size: 17px;
-}
-
-.vehicle-box strong {
-    display: inline-block;
-    min-width: 90px;
-}
-
-@media (max-width: 600px) {
-
-    .navbar {
-        padding: 18px 25px;
-    }
-
-    .container {
-        margin: 25px auto;
-        padding: 20px;
-    }
-
-    .container h1 {
-        font-size: 26px;
-    }
 }
