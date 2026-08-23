@@ -33,6 +33,17 @@ def init_db():
     """)
     
     cursor.execute("""
+    CREATE TABLE IF NOT EXISTS vehicles (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        vehicle_number VARCHAR(50) NOT NULL,
+        vehicle_model VARCHAR(100),
+        vehicle_color VARCHAR(50),
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
+    
+    cursor.execute("""
     CREATE TABLE IF NOT EXISTS accidents (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id),

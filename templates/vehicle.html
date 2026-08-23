@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicle Details - SafeRide</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #ef3340;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .vehicle-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f1f3f6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚗 Vehicle Details</h1>
+
+    <form method="POST">
+
+        <label>Vehicle Number</label>
+        <input
+            type="text"
+            name="vehicle_number"
+            placeholder="e.g. UP81AB1234"
+            required
+        >
+
+        <label>Vehicle Model</label>
+        <input
+            type="text"
+            name="vehicle_model"
+            placeholder="e.g. Honda City"
+        >
+
+        <label>Vehicle Color</label>
+        <input
+            type="text"
+            name="vehicle_color"
+            placeholder="e.g. Black"
+        >
+
+        <button type="submit">
+            Save Vehicle
+        </button>
+
+    </form>
+
+    {% if vehicle %}
+
+    <div class="vehicle-box">
+
+        <h2>Saved Vehicle</h2>
+
+        <p>
+            <strong>Number:</strong>
+            {{ vehicle.vehicle_number }}
+        </p>
+
+        <p>
+            <strong>Model:</strong>
+            {{ vehicle.vehicle_model }}
+        </p>
+
+        <p>
+            <strong>Color:</strong>
+            {{ vehicle.vehicle_color }}
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

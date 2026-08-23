@@ -65,6 +65,65 @@ def profile():
 
         cursor.close()
         connection.close()
+        
+# =========================
+# VEHICLE
+# =========================
+
+@app.route("/vehicle", methods=["GET", "POST"])
+def vehicle():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+
+        vehicle_number = request.form["vehicle_number"]
+        vehicle_model = request.form["vehicle_model"]
+        vehicle_color = request.form["vehicle_color"]
+
+        try:
+            cursor.execute("""
+                INSERT INTO vehicles
+                (user_id, vehicle_number, vehicle_model, vehicle_color)
+                VALUES (%s, %s, %s, %s)
+            """, (
+                user_id,
+                vehicle_number,
+                vehicle_model,
+                vehicle_color
+            ))
+
+            connection.commit()
+
+        except Exception as error:
+
+            connection.rollback()
+            cursor.close()
+            connection.close()
+
+            return f"Vehicle Error: {error}"
+
+    cursor.execute("""
+        SELECT vehicle_number, vehicle_model, vehicle_color
+        FROM vehicles
+        WHERE user_id = %s
+    """, (user_id,))
+
+    vehicle_data = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "vehicle.html",
+        vehicle=vehicle_data
+    )
 # =========================
 # REGISTER
 # =========================
