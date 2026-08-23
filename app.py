@@ -443,11 +443,18 @@ def history():
     cursor = connection.cursor()
 
     query = """
-    SELECT *
-    FROM accidents
-    WHERE user_id = %s
-    ORDER BY accident_time DESC
-    """
+SELECT
+    id,
+    user_id,
+    latitude,
+    longitude,
+    status,
+    accident_time AT TIME ZONE 'UTC'
+                    AT TIME ZONE 'Asia/Kolkata' AS accident_time
+FROM accidents
+WHERE user_id = %s
+ORDER BY accident_time DESC
+"""
 
     cursor.execute(
         query,
