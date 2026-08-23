@@ -1,35 +1,30 @@
-/* ================================
-   SAFERIDE DASHBOARD
-   ================================ */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
     background: #f5f7fb;
-    color: #111;
+    color: #222;
 }
 
 
-/* ================================
-   NAVBAR
-   ================================ */
+/* Navbar */
 
 .navbar {
-    width: 100%;
-    background: #111827;
-    color: white;
-    padding: 18px 40px;
+    height: 70px;
 
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    padding: 0 8%;
+
+    background: white;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .logo {
@@ -38,183 +33,235 @@ body {
 }
 
 .logout {
-    color: white;
     text-decoration: none;
-    font-size: 16px;
+
+    background: #e63946;
+
+    color: white;
+
+    padding: 10px 22px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
 }
 
-.logout:hover {
-    color: #ff3340;
-}
 
-
-/* ================================
-   DASHBOARD
-   ================================ */
+/* Dashboard */
 
 .dashboard {
-    max-width: 1200px;
+    padding: 60px 8%;
+
+    max-width: 1300px;
+
     margin: auto;
-    padding: 45px 25px;
 }
 
-
-/* ================================
-   WELCOME SECTION
-   ================================ */
-
 .welcome {
-    text-align: center;
     margin-bottom: 40px;
 }
 
+.small-title {
+    color: #e63946;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
 .welcome h1 {
-    font-size: 36px;
+    font-size: 38px;
+
     margin-bottom: 12px;
 }
 
 .welcome p {
-    font-size: 18px;
-    color: #555;
+    color: #666;
+
+    line-height: 1.6;
 }
 
 
-/* ================================
-   CARDS
-   ================================ */
+/* Cards */
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-bottom: 40px;
 }
 
 .card {
     background: white;
 
-    padding: 35px 38px;
+    padding: 30px;
 
-    border-radius: 18px;
+    border-radius: 15px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-
-    min-height: 360px;
-
-    display: flex;
-    flex-direction: column;
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .card-icon {
-    font-size: 50px;
-    margin-bottom: 20px;
-}
+    font-size: 40px;
 
-.card h2 {
-    font-size: 30px;
     margin-bottom: 15px;
 }
 
-.card p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #555;
-
-    flex-grow: 1;
+.card h2 {
+    margin-bottom: 10px;
 }
 
+.card p {
+    color: #666;
 
-/* ================================
-   ALL CARD BUTTONS
-   ================================ */
+    line-height: 1.5;
 
-.profile-button,
-.contacts-button,
-.vehicle-button {
-    display: block;
+    margin-bottom: 20px;
+}
 
-    width: 100%;
+.card button {
+    border: none;
 
-    padding: 14px 20px;
+    background: #e63946;
 
-    margin-top: 20px;
-
-    background: #ef3340;
     color: white;
 
-    text-decoration: none;
-    text-align: center;
+    padding: 11px 18px;
 
-    border: none;
-    border-radius: 9px;
-
-    font-size: 18px;
-    font-weight: bold;
+    border-radius: 7px;
 
     cursor: pointer;
 
-    transition: 0.2s ease;
+    font-weight: bold;
 }
 
-.profile-button:hover,
-.contacts-button:hover,
-.vehicle-button:hover {
-    background: #d92d39;
+
+/* Accident Section */
+
+.accident-section {
+    background: white;
+
+    text-align: center;
+
+    padding: 45px 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.08);
+
+    margin-bottom: 40px;
+}
+
+.warning-icon {
+    font-size: 55px;
+
+    margin-bottom: 15px;
+}
+
+.accident-section h2 {
+    font-size: 28px;
+
+    margin-bottom: 10px;
+}
+
+.accident-section p {
+    color: #666;
+
+    margin-bottom: 25px;
+}
+
+.accident-button {
+    display: inline-block;
+
+    text-decoration: none;
+
+    border: none;
+
+    background: #e63946;
+
     color: white;
+
+    padding: 16px 35px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.accident-button:hover {
+    background: #c92f3b;
 }
 
 
-/* ================================
-   BOTTOM CARDS
-   ================================ */
+/* Bottom Cards */
 
 .bottom-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
 
-    gap: 30px;
+    grid-template-columns:
+        repeat(2, 1fr);
 
-    margin-top: 30px;
+    gap: 25px;
 }
 
 .bottom-card {
     background: white;
 
-    padding: 30px;
+    padding: 25px;
 
-    border-radius: 18px;
+    border-radius: 15px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    display: flex;
 
-    text-decoration: none;
-    color: #111;
+    gap: 18px;
 
-    transition: 0.2s ease;
-}
+    align-items: center;
 
-.bottom-card:hover {
-    transform: translateY(-3px);
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .bottom-card span {
-    font-size: 40px;
-}
-
-.bottom-card h3 {
-    font-size: 22px;
-    margin-top: 15px;
+    font-size: 35px;
 }
 
 .bottom-card p {
-    color: #555;
-    margin-top: 8px;
+    color: #666;
+
+    margin-top: 5px;
 }
 
 
-/* ================================
-   RESPONSIVE
-   ================================ */
+/* Footer */
 
-@media (max-width: 900px) {
+footer {
+    text-align: center;
+
+    background: #111;
+
+    color: white;
+
+    padding: 25px;
+
+    margin-top: 30px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 800px) {
 
     .cards {
         grid-template-columns: 1fr;
@@ -224,31 +271,77 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .card {
-        min-height: auto;
+    .welcome h1 {
+        font-size: 30px;
     }
 }
 
+.card-button {
+    display: inline-block;
 
-@media (max-width: 600px) {
+    text-decoration: none;
 
-    .navbar {
-        padding: 15px 20px;
-    }
+    background: #e63946;
 
-    .dashboard {
-        padding: 30px 15px;
-    }
+    color: white;
 
-    .welcome h1 {
-        font-size: 28px;
-    }
+    padding: 11px 18px;
 
-    .card {
-        padding: 25px;
-    }
+    border-radius: 7px;
 
-    .card h2 {
-        font-size: 25px;
-    }
+    font-weight: bold;
+}
+.bottom-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.profile-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 24px;
+    background: #ef3340;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.profile-button:hover {
+    background: #d92330;
+    transform: translateY(-2px);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card p {
+    min-height: 50px;
+}
+
+.card button,
+.card a {
+    margin-top: auto;
+}
+
+.vehicle-button {
+    display: inline-block;
+    background: #ef3340;
+    color: white;
+    text-decoration: none;
+    padding: 14px 24px;
+    border-radius: 9px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: 0.2s ease;
+}
+
+.vehicle-button:hover {
+    background: #d92d39;
+    color: white;
 }
