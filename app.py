@@ -745,6 +745,104 @@ def delete_account():
 
         cursor.close()
         connection.close()
+        
+# =========================
+# EXTERNAL ACCOUNT DELETION
+# =========================
+
+@app.route("/account-deletion", methods=["GET", "POST"])
+def account_deletion():
+
+    if request.method == "GET":
+        return render_template("account-deletion.html")
+
+    email = request.form.get("email", "").strip().lower()
+    password = request.form.get("password", "")
+
+    if not email or not password:
+        return render_template(
+            "account-deletion.html",
+            error="Email and password are required."
+        )
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Find user
+        cursor.execute("""
+            SELECT id, password
+            FROM users
+            WHERE LOWER(email) = %s
+        """, (email,))
+
+        user = cursor.fetchone()
+
+        if not user:
+            return render_template(
+                "account-deletion.html",
+                error="Invalid email or password."
+            )
+
+        # Verify password
+        if not check_password_hash(user["password"], password):
+            return render_template(
+                "account-deletion.html",
+                error="Invalid email or password."
+            )
+
+        user_id = user["id"]
+
+        # Delete related emergency alerts
+        cursor.execute("""
+            DELETE FROM emergency_alerts
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete accidents
+        cursor.execute("""
+            DELETE FROM accidents
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete emergency contacts
+        cursor.execute("""
+            DELETE FROM emergency_contacts
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete vehicles
+        cursor.execute("""
+            DELETE FROM vehicles
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete user account
+        cursor.execute("""
+            DELETE FROM users
+            WHERE id = %s
+        """, (user_id,))
+
+        connection.commit()
+
+        return render_template(
+            "account-deletion.html",
+            success="Your SafeRide account and associated data have been deleted successfully."
+        )
+
+    except Exception as error:
+
+        connection.rollback()
+
+        return render_template(
+            "account-deletion.html",
+            error=f"Account deletion error: {error}"
+        ), 500
+
+    finally:
+
+        cursor.close()
+        connection.close()       
 
 
 # =========================

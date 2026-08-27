@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Account - SafeRide</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .home-btn {
+            text-decoration: none;
+            background: #ef3340;
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 650px;
+
+            margin: 60px auto;
+
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+
+            text-align: center;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        .warning {
+            background: #fff5f5;
+
+            border-left: 4px solid #ef3340;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+
+            color: #555;
+        }
+
+        label {
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+
+            margin-top: 18px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+
+            border-color: #ef3340;
+        }
+
+        button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #333;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #111;
+        }
+
+        .error {
+            background: #ffe5e5;
+
+            color: #b00020;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #e7f8ed;
+
+            color: #176b36;
+
+            padding: 18px;
+
+            border-radius: 8px;
+
+            line-height: 1.6;
+
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            background: #111;
+
+            color: white;
+
+            margin-top: 50px;
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin: 30px auto;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .home-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/" class="home-btn">
+            ← Home
+        </a>
+
+    </nav>
+
+
+    <main class="container">
+
+        <div class="card">
+
+            <h1>Delete Your Account</h1>
+
+            <p class="description">
+                Use this page to permanently delete your SafeRide account
+                and the data associated with it.
+            </p>
+
+
+            {% if error %}
+
+                <div class="error">
+                    ❌ {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            {% if success %}
+
+                <div class="success">
+                    ✅ {{ success }}
+                </div>
+
+            {% else %}
+
+                <div class="warning">
+                    <strong>Warning:</strong>
+                    Account deletion is permanent. Your profile,
+                    emergency contacts, vehicle information, accident
+                    records, emergency alert records, and account data
+                    associated with your SafeRide account will be deleted.
+                </div>
+
+
+                <form method="POST"
+                      action="/account-deletion"
+                      onsubmit="return confirm('Are you sure you want to permanently delete your SafeRide account and associated data?');">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your account email"
+                        required
+                    >
+
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your account password"
+                        required
+                    >
+
+
+                    <button type="submit">
+                        Permanently Delete Account
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
