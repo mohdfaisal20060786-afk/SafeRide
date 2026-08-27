@@ -18,6 +18,10 @@ app.secret_key = "saferide_secret_key_2026"
 def home():
     return render_template("index.html")
 
+@app.route("/privacy-policy")
+def privacy_policy():
+    return render_template("privacy-policy.html")
+
 @app.route("/current-location")
 def current_location():
     if "user_id" not in session:
