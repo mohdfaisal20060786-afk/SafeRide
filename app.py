@@ -679,6 +679,68 @@ def contact():
         """
 
     return redirect("/")
+# =========================
+# DELETE ACCOUNT
+# =========================
+
+@app.route("/delete-account", methods=["POST"])
+def delete_account():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Delete emergency alerts
+        cursor.execute("""
+            DELETE FROM emergency_alerts
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete accidents
+        cursor.execute("""
+            DELETE FROM accidents
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete emergency contacts
+        cursor.execute("""
+            DELETE FROM emergency_contacts
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete vehicles
+        cursor.execute("""
+            DELETE FROM vehicles
+            WHERE user_id = %s
+        """, (user_id,))
+
+        # Delete user
+        cursor.execute("""
+            DELETE FROM users
+            WHERE id = %s
+        """, (user_id,))
+
+        connection.commit()
+
+        session.clear()
+
+        return redirect("/")
+
+    except Exception as error:
+
+        connection.rollback()
+
+        return f"Account deletion error: {error}", 500
+
+    finally:
+
+        cursor.close()
+        connection.close()
 
 
 # =========================
