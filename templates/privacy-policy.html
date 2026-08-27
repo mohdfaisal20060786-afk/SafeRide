@@ -1,59 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Privacy Policy - SafeRide</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+            line-height: 1.7;
+        }
+
+        .navbar {
+            background: white;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 8%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #e63946;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .privacy-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px 50px;
+        }
+
+        .privacy-card {
+            background: white;
+            padding: 45px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e63946;
+            margin-bottom: 10px;
+            font-size: 38px;
+        }
+
+        .updated {
+            text-align: center;
+            color: #777;
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        ul {
+            margin: 10px 0 15px 25px;
+            color: #555;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: #e63946;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .important {
+            background: #fff5f5;
+            border-left: 4px solid #e63946;
+            padding: 15px 18px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #111;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .privacy-container {
+                margin: 25px auto;
+                padding: 0 15px 30px;
+            }
+
+            .privacy-card {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 21px;
+            }
+
+            .back-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
-    <h1>Privacy Policy</h1>
+    <nav class="navbar">
 
-    <p>SafeRide values your privacy.</p>
+        <div class="logo">
+            🚨 SafeRide
+        </div>
 
-    <h2>Information We Collect</h2>
+        <a href="/" class="back-btn">
+            ← Home
+        </a>
 
-    <p>
-        SafeRide may collect information such as name, email address,
-        phone number, emergency contact information, vehicle information,
-        GPS location, accident information, and messages submitted through
-        the contact form.
-    </p>
+    </nav>
 
-    <h2>How We Use Information</h2>
 
-    <p>
-        We use this information to provide account services, accident
-        detection, location services, emergency alerts, and related
-        safety features.
-    </p>
+    <main class="privacy-container">
 
-    <h2>Location Information</h2>
+        <div class="privacy-card">
 
-    <p>
-        SafeRide may use your device location to detect and save accident
-        locations and provide emergency response features.
-    </p>
+            <h1>Privacy Policy</h1>
 
-    <h2>Account Deletion</h2>
+            <p class="updated">
+                Last Updated: August 27, 2026
+            </p>
 
-    <p>
-        Users can delete their account and associated information through
-        the account deletion option available in the application.
-    </p>
 
-    <h2>Contact</h2>
+            <p>
+                SafeRide ("we", "us", or "our") respects your privacy.
+                This Privacy Policy explains how SafeRide collects, uses,
+                stores, protects, and deletes information when you use the
+                SafeRide application and website.
+            </p>
 
-    <p>
-        For privacy-related questions, please contact SafeRide through
-        the contact information provided on the website.
-    </p>
 
-    <p>
-        Last updated: 2026
-    </p>
+            <h2>1. Information We Collect</h2>
+
+            <p>
+                Depending on the features you use, SafeRide may collect
+                the following information:
+            </p>
+
+            <ul>
+                <li>Name</li>
+                <li>Email address</li>
+                <li>Phone number</li>
+                <li>Password information stored in protected/hashed form</li>
+                <li>Emergency contact name, phone number, and relationship</li>
+                <li>Vehicle information provided by the user</li>
+                <li>GPS latitude and longitude</li>
+                <li>Accident records and accident status</li>
+                <li>Emergency alert information</li>
+                <li>Messages submitted through the Contact Us form</li>
+            </ul>
+
+
+            <h2>2. How We Use Your Information</h2>
+
+            <p>
+                We use collected information to provide and operate
+                SafeRide features, including:
+            </p>
+
+            <ul>
+                <li>Creating and managing user accounts</li>
+                <li>Authenticating users</li>
+                <li>Displaying your profile information</li>
+                <li>Managing vehicle information</li>
+                <li>Managing emergency contacts</li>
+                <li>Detecting and recording accident events</li>
+                <li>Obtaining and displaying accident/current location</li>
+                <li>Generating emergency alert information</li>
+                <li>Maintaining accident history</li>
+                <li>Responding to Contact Us messages</li>
+            </ul>
+
+
+            <h2>3. Location Information</h2>
+
+            <p>
+                SafeRide requests access to your device's location when
+                a location-based feature is used. Location information may
+                include GPS latitude and longitude.
+            </p>
+
+            <p>
+                Location information is used to display your current
+                location and, when an accident event is recorded, to
+                associate the accident with its location.
+            </p>
+
+            <div class="important">
+                SafeRide only requests location access when required for
+                location-related functionality. You can manage location
+                permissions through your device settings.
+            </div>
+
+
+            <h2>4. Emergency Contacts</h2>
+
+            <p>
+                You may voluntarily provide emergency contact information,
+                including a contact's name, phone number, and relationship.
+            </p>
+
+            <p>
+                This information is used to prepare emergency alert
+                information associated with an accident event.
+            </p>
+
+
+            <h2>5. Vehicle Information</h2>
+
+            <p>
+                If you provide vehicle details, SafeRide may store the
+                vehicle number, model, and color associated with your
+                account.
+            </p>
+
+
+            <h2>6. Accident Information</h2>
+
+            <p>
+                When an accident event is recorded, SafeRide may store
+                information such as accident location, time, user account
+                association, and accident status.
+            </p>
+
+
+            <h2>7. Emergency Alerts</h2>
+
+            <p>
+                SafeRide uses accident and emergency-contact information
+                to generate emergency alert content and associate alerts
+                with the relevant accident and user account.
+            </p>
+
+            <p>
+                The current SafeRide application generates and records
+                emergency alert information within the service. Any
+                external communication or messaging functionality is
+                only used where specifically provided and enabled by
+                the application.
+            </p>
+
+
+            <h2>8. Contact Form Information</h2>
+
+            <p>
+                When you submit the Contact Us form, the information you
+                provide, such as your name, email address, subject, and
+                message, may be stored so that we can respond to your
+                inquiry.
+            </p>
+
+
+            <h2>9. Data Sharing</h2>
+
+            <p>
+                We do not sell your personal information.
+            </p>
+
+            <p>
+                Information may be processed by infrastructure or hosting
+                providers that help us operate the SafeRide service,
+                including hosting and database services. Such processing
+                is limited to providing and maintaining the service.
+            </p>
+
+
+            <h2>10. Data Security</h2>
+
+            <p>
+                SafeRide uses reasonable technical and organizational
+                measures to protect user information against unauthorized
+                access, alteration, disclosure, or destruction.
+            </p>
+
+            <p>
+                Account passwords are stored using password hashing rather
+                than being stored as plain-text passwords.
+            </p>
+
+            <p>
+                Data transmitted between the application and the online
+                service is intended to use HTTPS encryption.
+            </p>
+
+
+            <h2>11. Data Retention</h2>
+
+            <p>
+                We retain account and related information only for as long
+                as reasonably necessary to provide SafeRide features,
+                maintain records, resolve issues, or comply with legal
+                obligations.
+            </p>
+
+
+            <h2>12. Account and Data Deletion</h2>
+
+            <p>
+                SafeRide provides an account deletion option within the
+                application/profile area.
+            </p>
+
+            <p>
+                When an account deletion request is completed, associated
+                account information and related application data are
+                deleted from the SafeRide database, subject to any data
+                that may need to be retained where legally required.
+            </p>
+
+            <p>
+                Users may also contact SafeRide regarding account or data
+                deletion using the privacy contact information below.
+            </p>
+
+
+            <h2>13. Children's Privacy</h2>
+
+            <p>
+                SafeRide is not specifically directed toward children.
+                We do not knowingly collect personal information from
+                children in violation of applicable laws.
+            </p>
+
+
+            <h2>14. Third-Party Services</h2>
+
+            <p>
+                SafeRide may use third-party infrastructure and services
+                required to host, store, or operate the application.
+                These services may process information on our behalf.
+            </p>
+
+
+            <h2>15. Changes to This Privacy Policy</h2>
+
+            <p>
+                We may update this Privacy Policy from time to time to
+                reflect changes to SafeRide, legal requirements, or data
+                practices. The updated policy will be published on this
+                page with a revised "Last Updated" date.
+            </p>
+
+
+            <h2>16. Contact Us</h2>
+
+            <p>
+                For privacy questions, account deletion requests, or
+                concerns regarding your personal information, contact
+                SafeRide at:
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                mohdfaisal20060786@gmail.com
+            </p>
+
+            <p>
+                Please replace the email above with the actual email
+                address that you will monitor for privacy requests.
+            </p>
+
+
+            <h2>17. SafeRide Website</h2>
+
+            <p>
+                SafeRide website:
+                <a href="https://saferide-vyui.onrender.com">
+                    https://saferide-vyui.onrender.com
+                </a>
+            </p>
+
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
 
 </body>
+
 </html>
