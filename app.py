@@ -586,11 +586,12 @@ def send_alert():
 
 
     return render_template(
-        "alert.html",
-        message=message,
-        contacts=contacts_list,
-        status="Emergency alert generated successfully"
-    )
+    "alert.html",
+    message=message,
+    contacts=contacts_list,
+    accident_id=accident_data["id"],
+    status="Emergency alert generated successfully"
+)
     # =========================
 # CONTACT FORM
 # =========================

@@ -7,8 +7,7 @@
 
     <title>Accident Location - SafeRide</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/location.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/location.css') }}">
 </head>
 
 <body>
@@ -40,10 +39,7 @@
 
         <div id="location-result"></div>
 
-        <button
-            id="retry-button"
-            onclick="getLocation()"
-            style="display:none;">
+        <button id="retry-button" onclick="getLocation()" style="display:none;">
             🔄 Try Again
         </button>
 
@@ -92,7 +88,7 @@
 
             navigator.geolocation.getCurrentPosition(
 
-                function(position) {
+                function (position) {
 
                     const latitude =
                         position.coords.latitude;
@@ -123,7 +119,11 @@
 
                             <a
                                 href="https://www.google.com/maps?q=${latitude},${longitude}"
-                                target="_blank"
+                                
+    href="https://www.google.com/maps?q=${latitude},${longitude}"
+    class="map-button">
+    📍 Open Location in Google Maps
+</a>
                                 class="map-button">
 
                                 📍 Open Location in Google Maps
@@ -157,73 +157,73 @@
 
                     })
 
-                    .then(response => {
+                        .then(response => {
 
-                        if (!response.ok) {
+                            if (!response.ok) {
 
-                            throw new Error(
-                                "Server error: " +
-                                response.status
-                            );
+                                throw new Error(
+                                    "Server error: " +
+                                    response.status
+                                );
 
-                        }
+                            }
 
-                        return response.json();
+                            return response.json();
 
-                    })
+                        })
 
-                    .then(data => {
+                        .then(data => {
 
-                        const saveStatus =
-                            document.getElementById(
-                                "save-status"
-                            );
-
-
-                        if (data.success === true) {
-
-                            saveStatus.textContent =
-                                "✅ " + data.message;
+                            const saveStatus =
+                                document.getElementById(
+                                    "save-status"
+                                );
 
 
-                            setTimeout(function() {
+                            if (data.success === true) {
 
-                                window.location.href =
-                                    "/send-alert";
+                                saveStatus.textContent =
+                                    "✅ " + data.message;
 
-                            }, 1500);
 
-                        } else {
+                                setTimeout(function () {
 
-                            saveStatus.textContent =
-                                "❌ " + data.message;
+                                    window.location.href =
+                                        "/send-alert";
 
-                        }
+                                }, 1500);
 
-                    })
+                            } else {
 
-                    .catch(error => {
+                                saveStatus.textContent =
+                                    "❌ " + data.message;
 
-                        console.error(error);
+                            }
 
-                        const saveStatus =
-                            document.getElementById(
-                                "save-status"
-                            );
+                        })
 
-                        if (saveStatus) {
+                        .catch(error => {
 
-                            saveStatus.textContent =
-                                "❌ Unable to save accident details.";
+                            console.error(error);
 
-                        }
+                            const saveStatus =
+                                document.getElementById(
+                                    "save-status"
+                                );
 
-                    });
+                            if (saveStatus) {
+
+                                saveStatus.textContent =
+                                    "❌ Unable to save accident details.";
+
+                            }
+
+                        });
 
                 },
 
 
-                function(error) {
+                function (error) {
 
                     loader.style.display = "none";
 

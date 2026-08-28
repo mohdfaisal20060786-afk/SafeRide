@@ -116,6 +116,99 @@
         </p>
 
     </footer>
+    <script>
+
+    const accidentId = "{{ accident_id }}";
+
+    const smsKey =
+        "saferide_sms_sent_" + accidentId;
+
+
+    function sendEmergencyMessages() {
+
+        // Same accident ke liye SMS dobara na bheje
+        if (sessionStorage.getItem(smsKey) === "true") {
+            return;
+        }
+
+
+        // Android bridge available hai ya nahi
+        if (
+            !window.Android ||
+            !Android.sendEmergencySms
+        ) {
+            console.log("Android SMS interface not available.");
+            return;
+        }
+
+
+        const message = {{ message | tojson }};
+
+
+        const contacts = [
+
+            {% for contact in contacts %}
+
+            {
+                name: {{ contact.contact_name | tojson }},
+                phone: {{ contact.phone | tojson }}
+            }
+
+            {% if not loop.last %},{% endif %}
+
+            {% endfor %}
+
+        ];
+
+
+        let successCount = 0;
+
+
+        contacts.forEach(function(contact) {
+
+            const success =
+                Android.sendEmergencySms(
+                    contact.phone,
+                    message
+                );
+
+
+            if (success) {
+                successCount++;
+            }
+
+        });
+
+
+        if (successCount > 0) {
+
+            sessionStorage.setItem(
+                smsKey,
+                "true"
+            );
+
+            console.log(
+                successCount +
+                " emergency SMS sent."
+            );
+        }
+
+    }
+
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            setTimeout(
+                sendEmergencyMessages,
+                500
+            );
+
+        }
+    );
+
+</script>
 
 </body>
 

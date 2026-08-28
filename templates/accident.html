@@ -5,13 +5,11 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Accident Detection - SafeRide</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/accident.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/accident.css') }}">
 
 </head>
 
@@ -51,43 +49,35 @@
         </p>
 
 
-        <div class="countdown"
-             id="countdown">
+        <div class="countdown" id="countdown">
 
             Monitoring
 
         </div>
 
 
-        <p class="timer-text"
-           id="timerText">
+        <p class="timer-text" id="timerText">
 
             Automatic accident detection is active.
 
         </p>
 
 
-        <button
-            id="manualButton"
-            class="cancel-btn">
+        <button id="manualButton" class="cancel-btn">
 
             🚨 TEST ACCIDENT DETECTION
 
         </button>
 
 
-        <button
-            id="cancelButton"
-            class="cancel-btn"
-            style="display:none;">
+        <button id="cancelButton" class="cancel-btn" style="display:none;">
 
             CANCEL ALERT
 
         </button>
 
 
-        <div id="status"
-             class="status">
+        <div id="status" class="status">
 
             🟢 Monitoring for sudden impact...
 
@@ -145,6 +135,15 @@
         ) {
 
             Android.startAccidentDetection();
+
+        }
+
+        if (
+            window.Android &&
+            Android.requestSmsPermission
+        ) {
+
+            Android.requestSmsPermission();
 
         }
 
