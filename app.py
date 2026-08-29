@@ -429,6 +429,119 @@ def contacts():
         "contacts.html",
         contacts=contacts_list
     )
+    
+# =========================
+# EDIT EMERGENCY CONTACT
+# =========================
+
+@app.route("/edit-contact/<int:contact_id>", methods=["GET", "POST"])
+def edit_contact(contact_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    # Get contact belonging to logged-in user
+    cursor.execute("""
+        SELECT *
+        FROM emergency_contacts
+        WHERE id = %s AND user_id = %s
+    """, (contact_id, user_id))
+
+    contact = cursor.fetchone()
+
+    if not contact:
+        cursor.close()
+        connection.close()
+        return "Contact not found.", 404
+
+    if request.method == "POST":
+
+        contact_name = request.form["contact_name"]
+        phone = request.form["phone"]
+        relation_name = request.form["relation_name"]
+
+        try:
+
+            cursor.execute("""
+                UPDATE emergency_contacts
+                SET contact_name = %s,
+                    phone = %s,
+                    relation_name = %s
+                WHERE id = %s AND user_id = %s
+            """, (
+                contact_name,
+                phone,
+                relation_name,
+                contact_id,
+                user_id
+            ))
+
+            connection.commit()
+
+        except Exception as error:
+
+            connection.rollback()
+
+            cursor.close()
+            connection.close()
+
+            return f"Edit Contact Error: {error}", 500
+
+        cursor.close()
+        connection.close()
+
+        return redirect("/contacts")
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "edit-contact.html",
+        contact=contact
+    )
+    
+# =========================
+# DELETE EMERGENCY CONTACT
+# =========================
+
+@app.route("/delete-contact/<int:contact_id>", methods=["POST"])
+def delete_contact(contact_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+
+        cursor.execute("""
+            DELETE FROM emergency_contacts
+            WHERE id = %s AND user_id = %s
+        """, (contact_id, user_id))
+
+        connection.commit()
+
+    except Exception as error:
+
+        connection.rollback()
+
+        cursor.close()
+        connection.close()
+
+        return f"Delete Contact Error: {error}", 500
+
+    cursor.close()
+    connection.close()
+
+    return redirect("/contacts")
 
 
 # =========================

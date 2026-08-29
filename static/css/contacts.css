@@ -204,3 +204,75 @@ footer {
 body {
     min-height: 100vh;
 }
+
+/* Contact action buttons */
+
+.contact-card {
+    justify-content: space-between;
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: 1;
+}
+
+.contact-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+    width: auto;
+    margin-top: 0;
+    padding: 9px 14px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: #222;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #000;
+}
+
+.delete-btn {
+    background: #e63946;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #c71f2d;
+}
+
+.delete-form {
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+
+    .contact-card {
+        align-items: flex-start;
+    }
+
+    .contact-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        text-align: center;
+        min-width: 70px;
+    }
+}

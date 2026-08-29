@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Emergency Contact - SafeRide</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/contacts.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚨 SafeRide
+        </div>
+
+        <a href="/contacts" class="back-btn">
+            ← Contacts
+        </a>
+
+    </nav>
+
+
+    <main class="contacts-container">
+
+        <div class="heading">
+
+            <p>SAFETY SETTINGS</p>
+
+            <h1>Edit Emergency Contact</h1>
+
+            <span>
+                Update your emergency contact information.
+            </span>
+
+        </div>
+
+
+        <div class="contact-box">
+
+            <h2>Contact Details</h2>
+
+            <form method="POST">
+
+                <label for="contact_name">
+                    Contact Name
+                </label>
+
+                <input
+                    type="text"
+                    id="contact_name"
+                    name="contact_name"
+                    value="{{ contact.contact_name }}"
+                    placeholder="Enter contact name"
+                    required
+                >
+
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value="{{ contact.phone }}"
+                    placeholder="Enter phone number"
+                    required
+                >
+
+
+                <label for="relation_name">
+                    Relation
+                </label>
+
+                <select
+                    id="relation_name"
+                    name="relation_name"
+                    required
+                >
+
+                    <option value="">
+                        Select Relation
+                    </option>
+
+                    <option value="Father"
+                        {% if contact.relation_name == "Father" %}selected{% endif %}>
+                        Father
+                    </option>
+
+                    <option value="Mother"
+                        {% if contact.relation_name == "Mother" %}selected{% endif %}>
+                        Mother
+                    </option>
+
+                    <option value="Brother"
+                        {% if contact.relation_name == "Brother" %}selected{% endif %}>
+                        Brother
+                    </option>
+
+                    <option value="Sister"
+                        {% if contact.relation_name == "Sister" %}selected{% endif %}>
+                        Sister
+                    </option>
+
+                    <option value="Friend"
+                        {% if contact.relation_name == "Friend" %}selected{% endif %}>
+                        Friend
+                    </option>
+
+                    <option value="Other"
+                        {% if contact.relation_name == "Other" %}selected{% endif %}>
+                        Other
+                    </option>
+
+                </select>
+
+
+                <button type="submit">
+                    ✅ Update Contact
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 SafeRide | Intelligent Accident Detection System
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
