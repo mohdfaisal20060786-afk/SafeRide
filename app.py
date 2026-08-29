@@ -443,29 +443,37 @@ def edit_contact(contact_id):
     user_id = session["user_id"]
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
-    # Get contact belonging to logged-in user
-    cursor.execute("""
-        SELECT *
-        FROM emergency_contacts
-        WHERE id = %s AND user_id = %s
-    """, (contact_id, user_id))
+    try:
+        # Get contact belonging to logged-in user
+        cursor.execute("""
+            SELECT id, user_id, contact_name, phone, relation_name
+            FROM emergency_contacts
+            WHERE id = %s AND user_id = %s
+        """, (contact_id, user_id))
 
-    contact = cursor.fetchone()
+        row = cursor.fetchone()
 
-    if not contact:
-        cursor.close()
-        connection.close()
-        return "Contact not found.", 404
+        if not row:
+            cursor.close()
+            connection.close()
+            return "Contact not found.", 404
 
-    if request.method == "POST":
+        # Convert tuple into dictionary
+        contact = {
+            "id": row[0],
+            "user_id": row[1],
+            "contact_name": row[2],
+            "phone": row[3],
+            "relation_name": row[4]
+        }
 
-        contact_name = request.form["contact_name"]
-        phone = request.form["phone"]
-        relation_name = request.form["relation_name"]
+        if request.method == "POST":
 
-        try:
+            contact_name = request.form.get("contact_name", "").strip()
+            phone = request.form.get("phone", "").strip()
+            relation_name = request.form.get("relation_name", "").strip()
 
             cursor.execute("""
                 UPDATE emergency_contacts
@@ -483,27 +491,27 @@ def edit_contact(contact_id):
 
             connection.commit()
 
-        except Exception as error:
-
-            connection.rollback()
-
             cursor.close()
             connection.close()
 
-            return f"Edit Contact Error: {error}", 500
+            return redirect("/contacts")
 
         cursor.close()
         connection.close()
 
-        return redirect("/contacts")
+        return render_template(
+            "edit-contact.html",
+            contact=contact
+        )
 
-    cursor.close()
-    connection.close()
+    except Exception as error:
 
-    return render_template(
-        "edit-contact.html",
-        contact=contact
-    )
+        connection.rollback()
+
+        cursor.close()
+        connection.close()
+
+        return f"Edit Contact Error: {error}", 500
     
 # =========================
 # DELETE EMERGENCY CONTACT
