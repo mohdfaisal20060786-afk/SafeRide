@@ -446,7 +446,7 @@ def edit_contact(contact_id):
     cursor = connection.cursor()
 
     try:
-        # Get contact belonging to logged-in user
+        # Get contact
         cursor.execute("""
             SELECT id, user_id, contact_name, phone, relation_name
             FROM emergency_contacts
@@ -458,21 +458,41 @@ def edit_contact(contact_id):
         if not row:
             return "Contact not found.", 404
 
-        # Convert database row to dictionary
-        contact = {
-            "id": row[0],
-            "user_id": row[1],
-            "contact_name": row[2],
-            "phone": row[3],
-            "relation_name": row[4]
-        }
+        # Support both dictionary and tuple database results
+        if isinstance(row, dict):
+
+            contact = {
+                "id": row["id"],
+                "user_id": row["user_id"],
+                "contact_name": row["contact_name"],
+                "phone": row["phone"],
+                "relation_name": row["relation_name"]
+            }
+
+        else:
+
+            contact = {
+                "id": row[0],
+                "user_id": row[1],
+                "contact_name": row[2],
+                "phone": row[3],
+                "relation_name": row[4]
+            }
 
         # Update contact
         if request.method == "POST":
 
-            contact_name = request.form.get("contact_name", "").strip()
-            phone = request.form.get("phone", "").strip()
-            relation_name = request.form.get("relation_name", "").strip()
+            contact_name = request.form.get(
+                "contact_name", ""
+            ).strip()
+
+            phone = request.form.get(
+                "phone", ""
+            ).strip()
+
+            relation_name = request.form.get(
+                "relation_name", ""
+            ).strip()
 
             if not contact_name or not phone:
                 return "Name and phone are required.", 400
