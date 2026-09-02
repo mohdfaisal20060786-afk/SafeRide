@@ -456,11 +456,9 @@ def edit_contact(contact_id):
         row = cursor.fetchone()
 
         if not row:
-            cursor.close()
-            connection.close()
             return "Contact not found.", 404
 
-        # Convert tuple into dictionary
+        # Convert database row to dictionary
         contact = {
             "id": row[0],
             "user_id": row[1],
@@ -469,11 +467,15 @@ def edit_contact(contact_id):
             "relation_name": row[4]
         }
 
+        # Update contact
         if request.method == "POST":
 
             contact_name = request.form.get("contact_name", "").strip()
             phone = request.form.get("phone", "").strip()
             relation_name = request.form.get("relation_name", "").strip()
+
+            if not contact_name or not phone:
+                return "Name and phone are required.", 400
 
             cursor.execute("""
                 UPDATE emergency_contacts
@@ -491,13 +493,7 @@ def edit_contact(contact_id):
 
             connection.commit()
 
-            cursor.close()
-            connection.close()
-
             return redirect("/contacts")
-
-        cursor.close()
-        connection.close()
 
         return render_template(
             "edit-contact.html",
@@ -508,10 +504,12 @@ def edit_contact(contact_id):
 
         connection.rollback()
 
+        return f"Edit Contact Error: {error}", 500
+
+    finally:
+
         cursor.close()
         connection.close()
-
-        return f"Edit Contact Error: {error}", 500
     
 # =========================
 # DELETE EMERGENCY CONTACT
