@@ -3,11 +3,65 @@ from flask import Flask, render_template, request, redirect, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection, init_db
 
+import os
+import smtplib
+from email.message import EmailMessage
+
 app = Flask(__name__)
 init_db()
 
 # Session secret key
 app.secret_key = "saferide_secret_key_2026"
+
+
+# =========================
+# GMAIL SETTINGS
+# =========================
+
+GMAIL_ADDRESS = os.getenv(
+    "GMAIL_ADDRESS",
+    "mohdfaisal20060786@gmail.com"
+)
+
+GMAIL_APP_PASSWORD = os.getenv(
+    "GMAIL_APP_PASSWORD"
+)
+
+
+def send_contact_email(name, sender_email, subject, message):
+
+    if not GMAIL_APP_PASSWORD:
+        raise RuntimeError("GMAIL_APP_PASSWORD is not configured")
+
+    email = EmailMessage()
+
+    email["Subject"] = f"SafeRide Contact: {subject}"
+    email["From"] = GMAIL_ADDRESS
+    email["To"] = GMAIL_ADDRESS
+
+    email.set_content(
+        f"""
+New message received from SafeRide Contact Us.
+
+Name: {name}
+Email: {sender_email}
+Subject: {subject}
+
+Message:
+{message}
+"""
+    )
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+
+        smtp.starttls()
+
+        smtp.login(
+            GMAIL_ADDRESS,
+            GMAIL_APP_PASSWORD
+        )
+
+        smtp.send_message(email)
 
 
 # =========================
@@ -825,7 +879,7 @@ def send_alert():
     accident_id=accident_data["id"],
     status="Emergency alert generated successfully"
 )
-    # =========================
+# =========================
 # CONTACT FORM
 # =========================
 
@@ -834,87 +888,117 @@ def contact():
 
     if request.method == "POST":
 
-        name = request.form.get("name")
-        email = request.form.get("email")
-        subject = request.form.get("subject")
-        message = request.form.get("message")
+        name = request.form.get("name", "").strip()
+        sender_email = request.form.get("email", "").strip()
+        subject = request.form.get("subject", "").strip()
+        message = request.form.get("message", "").strip()
+
+        if not name or not sender_email or not subject or not message:
+            return "Please fill all fields.", 400
 
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        query = """
-            INSERT INTO contact_messages
-            (name, email, subject, message)
-            VALUES (%s, %s, %s, %s)
-        """
+        try:
 
-        cursor.execute(
-            query,
-            (name, email, subject, message)
-        )
+            # Save message in database
+            cursor.execute("""
+                INSERT INTO contact_messages
+                (name, email, subject, message)
+                VALUES (%s, %s, %s, %s)
+            """, (
+                name,
+                sender_email,
+                subject,
+                message
+            ))
 
-        connection.commit()
+            connection.commit()
 
-        cursor.close()
-        connection.close()
+            # Send message to SafeRide Gmail
+            send_contact_email(
+                name,
+                sender_email,
+                subject,
+                message
+            )
 
-        return """
-        <html>
-        <head>
-            <title>Message Sent - SafeRide</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    text-align: center;
-                    padding-top: 100px;
-                    background: #f5f5f5;
-                }
+            return """
+            <html>
+            <head>
+                <title>Message Sent - SafeRide</title>
 
-                .box {
-                    background: white;
-                    max-width: 500px;
-                    margin: auto;
-                    padding: 40px;
-                    border-radius: 15px;
-                    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-                }
+                <style>
 
-                h1 {
-                    color: #e63946;
-                }
+                    body {
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                        padding-top: 100px;
+                        background: #f5f5f5;
+                    }
 
-                a {
-                    display: inline-block;
-                    margin-top: 20px;
-                    padding: 12px 25px;
-                    background: #e63946;
-                    color: white;
-                    text-decoration: none;
-                    border-radius: 8px;
-                }
-            </style>
-        </head>
+                    .box {
+                        background: white;
+                        max-width: 500px;
+                        margin: auto;
+                        padding: 40px;
+                        border-radius: 15px;
+                        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+                    }
 
-        <body>
+                    h1 {
+                        color: #e63946;
+                    }
 
-            <div class="box">
+                    a {
+                        display: inline-block;
+                        margin-top: 20px;
+                        padding: 12px 25px;
+                        background: #e63946;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 8px;
+                    }
 
-                <h1>✅ Message Sent!</h1>
+                </style>
 
-                <p>
-                    Thank you for contacting SafeRide.
-                    Your message has been received successfully.
-                </p>
+            </head>
 
-                <a href="/">
-                    Back to Home
-                </a>
+            <body>
 
-            </div>
+                <div class="box">
 
-        </body>
-        </html>
-        """
+                    <h1>✅ Message Sent!</h1>
+
+                    <p>
+                        Thank you for contacting SafeRide.
+                        Your message has been received successfully.
+                    </p>
+
+                    <p>
+                        Our support team will review your message.
+                    </p>
+
+                    <a href="/">
+                        Back to Home
+                    </a>
+
+                </div>
+
+            </body>
+            </html>
+            """
+
+        except Exception as error:
+
+            connection.rollback()
+
+            return f"Contact Error: {error}", 500
+
+        finally:
+
+            cursor.close()
+            connection.close()
 
     return redirect("/")
 # =========================
