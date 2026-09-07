@@ -9,6 +9,17 @@ import urllib.request
 import urllib.error
 from html import escape
 
+# =========================
+# FLASK APP
+# =========================
+
+app = Flask(__name__)
+
+init_db()
+
+# Session secret key
+app.secret_key = "saferide_secret_key_2026"
+
 
 # =========================
 # RESEND EMAIL SETTINGS
