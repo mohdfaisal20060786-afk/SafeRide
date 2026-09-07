@@ -114,49 +114,105 @@ def vehicle():
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    if request.method == "POST":
+    try:
 
-        vehicle_number = request.form["vehicle_number"]
-        vehicle_model = request.form["vehicle_model"]
-        vehicle_color = request.form["vehicle_color"]
+        # POST ACTION
+        if request.method == "POST":
 
-        try:
-            cursor.execute("""
-                INSERT INTO vehicles
-                (user_id, vehicle_number, vehicle_model, vehicle_color)
-                VALUES (%s, %s, %s, %s)
-            """, (
-                user_id,
-                vehicle_number,
-                vehicle_model,
-                vehicle_color
-            ))
+            action = request.form.get("action")
 
-            connection.commit()
+            # DELETE VEHICLE
+            if action == "delete":
 
-        except Exception as error:
+                cursor.execute("""
+                    DELETE FROM vehicles
+                    WHERE user_id = %s
+                """, (user_id,))
 
-            connection.rollback()
-            cursor.close()
-            connection.close()
+                connection.commit()
 
-            return f"Vehicle Error: {error}"
+                return redirect("/vehicle")
 
-    cursor.execute("""
-        SELECT vehicle_number, vehicle_model, vehicle_color
-        FROM vehicles
-        WHERE user_id = %s
-    """, (user_id,))
+            # SAVE / UPDATE VEHICLE
+            if action == "save":
 
-    vehicle_data = cursor.fetchone()
+                vehicle_number = request.form.get("vehicle_number", "").strip()
+                vehicle_model = request.form.get("vehicle_model", "").strip()
+                vehicle_color = request.form.get("vehicle_color", "").strip()
 
-    cursor.close()
-    connection.close()
+                if not vehicle_number:
+                    return "Vehicle number is required.", 400
 
-    return render_template(
-        "vehicle.html",
-        vehicle=vehicle_data
-    )
+                cursor.execute("""
+                    SELECT id
+                    FROM vehicles
+                    WHERE user_id = %s
+                    LIMIT 1
+                """, (user_id,))
+
+                existing_vehicle = cursor.fetchone()
+
+                if existing_vehicle:
+
+                    vehicle_id = existing_vehicle["id"]
+
+                    cursor.execute("""
+                        UPDATE vehicles
+                        SET vehicle_number = %s,
+                            vehicle_model = %s,
+                            vehicle_color = %s
+                        WHERE id = %s
+                          AND user_id = %s
+                    """, (
+                        vehicle_number,
+                        vehicle_model,
+                        vehicle_color,
+                        vehicle_id,
+                        user_id
+                    ))
+
+                else:
+
+                    cursor.execute("""
+                        INSERT INTO vehicles
+                        (user_id, vehicle_number, vehicle_model, vehicle_color)
+                        VALUES (%s, %s, %s, %s)
+                    """, (
+                        user_id,
+                        vehicle_number,
+                        vehicle_model,
+                        vehicle_color
+                    ))
+
+                connection.commit()
+
+                return redirect("/vehicle")
+
+        # GET VEHICLE
+        cursor.execute("""
+            SELECT id, vehicle_number, vehicle_model, vehicle_color
+            FROM vehicles
+            WHERE user_id = %s
+            LIMIT 1
+        """, (user_id,))
+
+        vehicle_data = cursor.fetchone()
+
+        return render_template(
+            "vehicle.html",
+            vehicle=vehicle_data
+        )
+
+    except Exception as error:
+
+        connection.rollback()
+
+        return f"Vehicle Error: {error}", 500
+
+    finally:
+
+        cursor.close()
+        connection.close()
 # =========================
 # REGISTER
 # =========================
