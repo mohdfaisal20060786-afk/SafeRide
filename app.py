@@ -547,27 +547,36 @@ def delete_contact(contact_id):
     cursor = connection.cursor()
 
     try:
+        # First remove the contact reference from old emergency alerts.
+        # This keeps the old alert/history record but removes its link
+        # to the deleted contact.
+        cursor.execute("""
+            UPDATE emergency_alerts
+            SET contact_id = NULL
+            WHERE contact_id = %s
+              AND user_id = %s
+        """, (contact_id, user_id))
 
+        # Now delete the emergency contact itself.
         cursor.execute("""
             DELETE FROM emergency_contacts
-            WHERE id = %s AND user_id = %s
+            WHERE id = %s
+              AND user_id = %s
         """, (contact_id, user_id))
 
         connection.commit()
+
+        return redirect("/contacts")
 
     except Exception as error:
 
         connection.rollback()
 
-        cursor.close()
-        connection.close()
-
         return f"Delete Contact Error: {error}", 500
 
-    cursor.close()
-    connection.close()
-
-    return redirect("/contacts")
+    finally:
+        cursor.close()
+        connection.close()
 
 
 # =========================
