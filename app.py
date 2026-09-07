@@ -61,15 +61,16 @@ def send_contact_email(name, sender_email, subject, message):
 
     data = json.dumps(email_data).encode("utf-8")
 
-    request = urllib.request.Request(
-        "https://api.resend.com/emails",
-        data=data,
-        headers={
-            "Authorization": f"Bearer {RESEND_API_KEY}",
-            "Content-Type": "application/json"
-        },
-        method="POST"
-    )
+    api_request = urllib.request.Request(
+    "https://api.resend.com/emails",
+    data=data,
+    headers={
+        "Authorization": f"Bearer {RESEND_API_KEY}",
+        "Content-Type": "application/json",
+        "User-Agent": "SafeRide/1.0"
+    },
+    method="POST"
+)
 
     try:
 
