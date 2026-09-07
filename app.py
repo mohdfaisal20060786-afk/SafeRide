@@ -4,9 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection, init_db
 
 import os
-import json
-import urllib.request
-import urllib.error
+import resend
 from html import escape
 
 # =========================
@@ -27,9 +25,9 @@ app.secret_key = "saferide_secret_key_2026"
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 
-RESEND_FROM = "SafeRide <onboarding@resend.dev>"
-
 RESEND_TO = "mohdfaisal20060786@gmail.com"
+
+resend.api_key = RESEND_API_KEY
 
 
 def send_contact_email(name, sender_email, subject, message):
@@ -37,10 +35,10 @@ def send_contact_email(name, sender_email, subject, message):
     if not RESEND_API_KEY:
         raise RuntimeError("RESEND_API_KEY is not configured")
 
-    email_data = {
-        "from": RESEND_FROM,
+    params = {
+        "from": "SafeRide <onboarding@resend.dev>",
         "to": [RESEND_TO],
-        "reply_to": sender_email,
+        "reply_to": [sender_email],
         "subject": f"SafeRide Contact: {subject}",
         "html": f"""
         <h2>New SafeRide Contact Message</h2>
@@ -59,45 +57,9 @@ def send_contact_email(name, sender_email, subject, message):
         """
     }
 
-    data = json.dumps(email_data).encode("utf-8")
+    result = resend.Emails.send(params)
 
-    api_request = urllib.request.Request(
-    "https://api.resend.com/emails",
-    data=data,
-    headers={
-        "Authorization": f"Bearer {RESEND_API_KEY}",
-        "Content-Type": "application/json",
-        "User-Agent": "SafeRide/1.0"
-    },
-    method="POST"
-)
-
-    try:
-
-        with urllib.request.urlopen(request, timeout=20) as response:
-
-            response_data = response.read().decode("utf-8")
-
-            if response.status not in (200, 201):
-                raise RuntimeError(
-                    f"Resend Error: {response_data}"
-                )
-
-            return response_data
-
-    except urllib.error.HTTPError as error:
-
-        error_body = error.read().decode("utf-8")
-
-        raise RuntimeError(
-            f"Resend HTTP Error {error.code}: {error_body}"
-        )
-
-    except urllib.error.URLError as error:
-
-        raise RuntimeError(
-            f"Resend Connection Error: {error}"
-        )
+    return result
 
 
 # =========================
