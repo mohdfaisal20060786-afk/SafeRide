@@ -64,33 +64,97 @@
             width: 100px;
         }
 
-        .back-button {
+        .edit-button,
+        .back-button,
+        .delete-button {
+            width: 100%;
+            box-sizing: border-box;
             display: block;
             text-align: center;
-            margin-top: 25px;
+            margin-top: 15px;
             padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .edit-button {
             background: #ef3340;
             color: white;
-            text-decoration: none;
-            border-radius: 10px;
+        }
+
+        .edit-button:hover {
+            background: #d92b37;
+        }
+
+        .back-button {
+            background: #ef3340;
+            color: white;
+            margin-top: 25px;
+        }
+
+        .delete-button {
+            background: #333;
+            color: white;
+        }
+
+        .delete-button:hover {
+            background: #111;
+        }
+
+        .edit-form {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .edit-form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
-        .delete-button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 13px;
-    border: none;
-    border-radius: 10px;
-    background: #333;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
 
-.delete-button:hover {
-    background: #111;
-}
+        .edit-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .save-button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: #28a745;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #218838;
+        }
+
+        .cancel-button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: #777;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
     </style>
 
@@ -115,6 +179,8 @@
 
         <h1>My Profile</h1>
 
+
+        <!-- PROFILE DETAILS -->
 
         <div class="detail">
 
@@ -143,25 +209,123 @@
         </div>
 
 
-        <a href="/dashboard"
-           class="back-button">
+        <!-- EDIT BUTTON -->
+
+        <button
+            type="button"
+            class="edit-button"
+            onclick="showEditForm()"
+        >
+
+            ✏️ Edit Profile
+
+        </button>
+
+
+        <!-- EDIT FORM -->
+
+        <div class="edit-form" id="editForm">
+
+            <form method="POST" action="/profile">
+
+                <label for="name">Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ user['name'] }}"
+                    required
+                >
+
+
+                <label for="email">Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ user['email'] }}"
+                    required
+                >
+
+
+                <label for="phone">Phone</label>
+
+                <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value="{{ user['phone'] or '' }}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    💾 Save Changes
+                </button>
+
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    onclick="hideEditForm()"
+                >
+                    Cancel
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- BACK -->
+
+        <a
+            href="/dashboard"
+            class="back-button"
+        >
 
             ← Back to Dashboard
 
         </a>
+
+
+        <!-- DELETE ACCOUNT -->
+
         <form
-    method="POST"
-    action="/delete-account"
-    onsubmit="return confirm('Are you sure you want to permanently delete your account and all related data?');"
->
+            method="POST"
+            action="/delete-account"
+            onsubmit="return confirm('Are you sure you want to permanently delete your account and all related data?');"
+        >
 
-    <button type="submit" class="delete-button">
-        Delete My Account
-    </button>
+            <button
+                type="submit"
+                class="delete-button"
+            >
 
-</form>
+                Delete My Account
+
+            </button>
+
+        </form>
 
     </div>
+
+
+    <script>
+
+        function showEditForm() {
+            document.getElementById("editForm").style.display = "block";
+        }
+
+        function hideEditForm() {
+            document.getElementById("editForm").style.display = "none";
+        }
+
+    </script>
 
 </body>
 

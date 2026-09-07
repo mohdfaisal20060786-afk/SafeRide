@@ -33,7 +33,7 @@ def current_location():
 # PROFILE
 # =========================
 
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 def profile():
 
     if "user_id" not in session:
@@ -45,6 +45,33 @@ def profile():
     cursor = connection.cursor()
 
     try:
+
+        # UPDATE PROFILE
+        if request.method == "POST":
+
+            name = request.form.get("name", "").strip()
+            email = request.form.get("email", "").strip()
+            phone = request.form.get("phone", "").strip()
+
+            if not name or not email:
+                return "Name and Email are required.", 400
+
+            cursor.execute("""
+                UPDATE users
+                SET name = %s,
+                    email = %s,
+                    phone = %s
+                WHERE id = %s
+            """, (name, email, phone, user_id))
+
+            connection.commit()
+
+            # Update session name also
+            session["user_name"] = name
+
+            return redirect("/profile")
+
+        # SHOW PROFILE
         cursor.execute("""
             SELECT id, name, email, phone
             FROM users
@@ -62,6 +89,8 @@ def profile():
         )
 
     except Exception as error:
+
+        connection.rollback()
 
         return f"Profile Error: {error}", 500
 
