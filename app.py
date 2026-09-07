@@ -4,64 +4,88 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection, init_db
 
 import os
-import smtplib
-from email.message import EmailMessage
-
-app = Flask(__name__)
-init_db()
-
-# Session secret key
-app.secret_key = "saferide_secret_key_2026"
+import json
+import urllib.request
+import urllib.error
+from html import escape
 
 
 # =========================
-# GMAIL SETTINGS
+# RESEND EMAIL SETTINGS
 # =========================
 
-GMAIL_ADDRESS = os.getenv(
-    "GMAIL_ADDRESS",
-    "mohdfaisal20060786@gmail.com"
-)
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 
-GMAIL_APP_PASSWORD = os.getenv(
-    "GMAIL_APP_PASSWORD"
-)
+RESEND_FROM = "SafeRide <onboarding@resend.dev>"
+
+RESEND_TO = "mohdfaisal20060786@gmail.com"
 
 
 def send_contact_email(name, sender_email, subject, message):
 
-    if not GMAIL_APP_PASSWORD:
-        raise RuntimeError("GMAIL_APP_PASSWORD is not configured")
+    if not RESEND_API_KEY:
+        raise RuntimeError("RESEND_API_KEY is not configured")
 
-    email = EmailMessage()
+    email_data = {
+        "from": RESEND_FROM,
+        "to": [RESEND_TO],
+        "reply_to": sender_email,
+        "subject": f"SafeRide Contact: {subject}",
+        "html": f"""
+        <h2>New SafeRide Contact Message</h2>
 
-    email["Subject"] = f"SafeRide Contact: {subject}"
-    email["From"] = GMAIL_ADDRESS
-    email["To"] = GMAIL_ADDRESS
+        <p><strong>Name:</strong> {escape(name)}</p>
 
-    email.set_content(
-        f"""
-New message received from SafeRide Contact Us.
+        <p><strong>Email:</strong> {escape(sender_email)}</p>
 
-Name: {name}
-Email: {sender_email}
-Subject: {subject}
+        <p><strong>Subject:</strong> {escape(subject)}</p>
 
-Message:
-{message}
-"""
+        <hr>
+
+        <p><strong>Message:</strong></p>
+
+        <p>{escape(message).replace(chr(10), "<br>")}</p>
+        """
+    }
+
+    data = json.dumps(email_data).encode("utf-8")
+
+    request = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=data,
+        headers={
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json"
+        },
+        method="POST"
     )
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+    try:
 
-        smtp.starttls()
+        with urllib.request.urlopen(request, timeout=20) as response:
 
-        smtp.login(
-            GMAIL_ADDRESS,
-            GMAIL_APP_PASSWORD
+            response_data = response.read().decode("utf-8")
+
+            if response.status not in (200, 201):
+                raise RuntimeError(
+                    f"Resend Error: {response_data}"
+                )
+
+            return response_data
+
+    except urllib.error.HTTPError as error:
+
+        error_body = error.read().decode("utf-8")
+
+        raise RuntimeError(
+            f"Resend HTTP Error {error.code}: {error_body}"
         )
 
-        smtp.send_message(email)
+    except urllib.error.URLError as error:
+
+        raise RuntimeError(
+            f"Resend Connection Error: {error}"
+        )
 
 
 # =========================
@@ -915,7 +939,7 @@ def contact():
 
             connection.commit()
 
-            # Send message to SafeRide Gmail
+            # Send message through Resend
             send_contact_email(
                 name,
                 sender_email,
@@ -925,7 +949,9 @@ def contact():
 
             return """
             <html>
+
             <head>
+
                 <title>Message Sent - SafeRide</title>
 
                 <style>
@@ -986,6 +1012,7 @@ def contact():
                 </div>
 
             </body>
+
             </html>
             """
 
