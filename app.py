@@ -74,6 +74,10 @@ def send_contact_email(name, sender_email, subject, message):
 
 @app.route("/")
 def home():
+
+    if "user_id" in session:
+        return redirect("/dashboard")
+
     return render_template("index.html")
 
 @app.route("/privacy-policy")
