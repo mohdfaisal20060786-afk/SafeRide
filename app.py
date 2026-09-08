@@ -1,5 +1,6 @@
 from psycopg2.extras import RealDictCursor
 from flask import Flask, render_template, request, redirect, session, jsonify
+from datetime import timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection, init_db
 
@@ -17,6 +18,11 @@ init_db()
 
 # Session secret key
 app.secret_key = "saferide_secret_key_2026"
+
+app.permanent_session_lifetime = timedelta(days=30)
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 
 # =========================
@@ -358,7 +364,7 @@ def login():
             user["password"],
             password
         ):
-
+            session.permanent = True
             session["user_id"] = user["id"]
             session["user_name"] = user["name"]
 
